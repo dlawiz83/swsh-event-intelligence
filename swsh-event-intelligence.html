@@ -1,0 +1,1018 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>swsh Event Intelligence — built by Ayesha Dawodi</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: #0c0c0c;
+        color: #e8e3dc;
+        min-height: 100vh;
+        padding: 2rem 1rem;
+      }
+      .container {
+        max-width: 780px;
+        margin: 0 auto;
+      }
+      .logo-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 1.5rem;
+      }
+      .logo {
+        width: 36px;
+        height: 36px;
+        background: #e85d04;
+        border-radius: 9px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-weight: 800;
+        font-size: 13px;
+        flex-shrink: 0;
+      }
+      .logo-name {
+        font-size: 16px;
+        font-weight: 700;
+        color: #fff;
+        letter-spacing: -0.3px;
+      }
+      .logo-sub {
+        font-size: 13px;
+        color: #555;
+        margin-left: 4px;
+      }
+      .eyebrow {
+        font-size: 11px;
+        color: #e85d04;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+      }
+      h1 {
+        font-size: 26px;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 0.5rem;
+        line-height: 1.25;
+      }
+      .sub {
+        font-size: 14px;
+        color: #888;
+        margin-bottom: 2rem;
+        line-height: 1.65;
+        max-width: 560px;
+      }
+      .tabs {
+        display: flex;
+        gap: 0;
+        background: #161616;
+        border: 1px solid #252525;
+        border-radius: 10px;
+        padding: 4px;
+        margin-bottom: 1.5rem;
+        width: fit-content;
+      }
+      .tab {
+        padding: 8px 22px;
+        border-radius: 7px;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        color: #666;
+        transition: all 0.15s;
+        border: none;
+        background: none;
+        font-family: inherit;
+      }
+      .tab.active {
+        background: #222;
+        color: #fff;
+      }
+      .tab:hover:not(.active) {
+        color: #aaa;
+      }
+      .card {
+        background: #111;
+        border: 1px solid #1e1e1e;
+        border-radius: 14px;
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+      }
+      label {
+        display: block;
+        font-size: 12px;
+        color: #777;
+        margin-bottom: 5px;
+        font-weight: 500;
+        letter-spacing: 0.02em;
+      }
+      .field-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-bottom: 14px;
+      }
+      @media (max-width: 520px) {
+        .field-row {
+          grid-template-columns: 1fr;
+        }
+      }
+      input[type="text"],
+      input[type="password"] {
+        width: 100%;
+        background: #0c0c0c;
+        border: 1px solid #252525;
+        border-radius: 8px;
+        padding: 10px 12px;
+        font-size: 13px;
+        color: #e8e3dc;
+        outline: none;
+        transition: border 0.15s;
+        font-family: inherit;
+      }
+      input[type="text"]:focus,
+      input[type="password"]:focus {
+        border-color: #e85d04;
+      }
+      input::placeholder {
+        color: #333;
+      }
+      .hint {
+        font-size: 11px;
+        color: #444;
+        margin-top: 4px;
+      }
+      .btn {
+        width: 100%;
+        padding: 12px;
+        background: #e85d04;
+        color: #fff;
+        border: none;
+        border-radius: 9px;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.15s;
+        font-family: inherit;
+        letter-spacing: 0.01em;
+      }
+      .btn:hover {
+        background: #d45200;
+      }
+      .btn:active {
+        transform: scale(0.99);
+      }
+      .btn:disabled {
+        background: #1e1e1e;
+        color: #444;
+        cursor: not-allowed;
+        transform: none;
+      }
+      .demo-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 11px;
+        background: rgba(232, 93, 4, 0.12);
+        color: #e85d04;
+        border: 1px solid rgba(232, 93, 4, 0.25);
+        border-radius: 99px;
+        padding: 4px 11px;
+        margin-bottom: 0.875rem;
+        font-weight: 600;
+      }
+      .status-bar {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 13px;
+        color: #888;
+        padding: 0.875rem 1.125rem;
+        background: #111;
+        border: 1px solid #1e1e1e;
+        border-radius: 10px;
+        margin-bottom: 1rem;
+      }
+      .spinner {
+        width: 14px;
+        height: 14px;
+        border: 2px solid #252525;
+        border-top-color: #e85d04;
+        border-radius: 50%;
+        animation: spin 0.7s linear infinite;
+        flex-shrink: 0;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .check-icon {
+        color: #22c55e;
+        flex-shrink: 0;
+      }
+      .alert {
+        padding: 0.875rem 1rem;
+        border-radius: 9px;
+        font-size: 13px;
+        margin-bottom: 1rem;
+        line-height: 1.5;
+      }
+      .alert-danger {
+        background: rgba(239, 68, 68, 0.08);
+        color: #fca5a5;
+        border: 1px solid rgba(239, 68, 68, 0.2);
+      }
+      .stats-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-bottom: 1.25rem;
+      }
+      .stat-card {
+        background: #111;
+        border: 1px solid #1e1e1e;
+        border-radius: 10px;
+        padding: 1rem;
+        text-align: center;
+      }
+      .stat-num {
+        font-size: 26px;
+        font-weight: 700;
+        color: #fff;
+        display: block;
+        line-height: 1;
+      }
+      .stat-label {
+        font-size: 10px;
+        color: #555;
+        margin-top: 5px;
+        display: block;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      .section-label {
+        font-size: 11px;
+        font-weight: 600;
+        color: #444;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 0.875rem;
+      }
+      .photo-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
+        gap: 10px;
+        margin-bottom: 1.25rem;
+      }
+      .photo-card {
+        background: #111;
+        border: 1px solid #1e1e1e;
+        border-radius: 12px;
+        overflow: hidden;
+        position: relative;
+      }
+      .photo-placeholder {
+        width: 100%;
+        aspect-ratio: 1;
+        background: #0c0c0c;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+      .ph-label {
+        font-size: 10px;
+        color: #2a2a2a;
+        font-family: monospace;
+      }
+      .photo-img {
+        width: 100%;
+        aspect-ratio: 1;
+        object-fit: cover;
+        display: block;
+      }
+      .photo-info {
+        padding: 0.75rem;
+      }
+      .photo-id {
+        font-size: 10px;
+        color: #2a2a2a;
+        font-family: monospace;
+        margin-bottom: 7px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        min-height: 20px;
+      }
+      .tag {
+        font-size: 10px;
+        padding: 3px 8px;
+        border-radius: 99px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .tag-sponsor {
+        background: rgba(232, 93, 4, 0.15);
+        color: #fb923c;
+        border: 1px solid rgba(232, 93, 4, 0.25);
+      }
+      .tag-energy {
+        background: rgba(34, 197, 94, 0.1);
+        color: #4ade80;
+        border: 1px solid rgba(34, 197, 94, 0.2);
+      }
+      .tag-merch {
+        background: rgba(250, 204, 21, 0.1);
+        color: #fbbf24;
+        border: 1px solid rgba(250, 204, 21, 0.2);
+      }
+      .tag-existing {
+        background: #161616;
+        color: #444;
+        border: 1px solid #222;
+      }
+      .badge {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        font-size: 10px;
+        padding: 3px 9px;
+        border-radius: 99px;
+        font-weight: 600;
+      }
+      .badge-analyzing {
+        background: rgba(251, 191, 36, 0.15);
+        color: #fbbf24;
+        border: 1px solid rgba(251, 191, 36, 0.25);
+      }
+      .badge-done {
+        background: rgba(34, 197, 94, 0.15);
+        color: #22c55e;
+        border: 1px solid rgba(34, 197, 94, 0.25);
+      }
+      .log-wrap {
+        background: #080808;
+        border: 1px solid #161616;
+        border-radius: 10px;
+        padding: 1rem;
+        max-height: 200px;
+        overflow-y: auto;
+        margin-bottom: 1.5rem;
+      }
+      .log-line {
+        font-family: monospace;
+        font-size: 12px;
+        line-height: 2;
+        display: block;
+      }
+      .log-ok {
+        color: #22c55e;
+      }
+      .log-info {
+        color: #60a5fa;
+      }
+      .log-warn {
+        color: #f59e0b;
+      }
+      .log-muted {
+        color: #2a2a2a;
+      }
+      .footer {
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid #161616;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .footer-l {
+        font-size: 12px;
+        color: #333;
+      }
+      .footer-r {
+        font-size: 12px;
+        color: #444;
+      }
+      .footer a {
+        color: #e85d04;
+        text-decoration: none;
+      }
+      .footer a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="logo-row">
+        <div class="logo">sw</div>
+        <span class="logo-name">swsh</span>
+        <span class="logo-sub">event intelligence</span>
+      </div>
+
+      <div class="eyebrow">built by Ayesha Dawodi · demo</div>
+      <h1>AI photo tagging for live events</h1>
+      <p class="sub">
+        Connect a swsh album and AI will detect sponsor logos, crowd energy, and
+        merch in every fan photo, then write structured labels back via the swsh
+        API.
+      </p>
+
+      <div id="alert-box"></div>
+
+      <div class="tabs">
+        <button class="tab" id="tab-live" onclick="switchTab('live')">
+          Live API
+        </button>
+        <button class="tab active" id="tab-demo" onclick="switchTab('demo')">
+          Demo mode
+        </button>
+      </div>
+
+      <div id="panel-live" style="display: none">
+        <div class="card">
+          <div class="field-row">
+            <div>
+              <label for="api-key">swsh API key</label>
+              <input type="password" id="api-key" placeholder="sk-swsh-…" />
+              <div class="hint">From swsh developer settings</div>
+            </div>
+            <div>
+              <label for="album-id">Album ID</label>
+              <input type="text" id="album-id" placeholder="22222222-2222-…" />
+              <div class="hint">From the album URL or API</div>
+            </div>
+          </div>
+          <label for="prompt-ctx"
+            >Brand context
+            <span style="color: #333; font-weight: 400">(optional)</span></label
+          >
+          <input
+            type="text"
+            id="prompt-ctx"
+            placeholder="e.g. Sponsors: Nike, Red Bull. Merch: tour tee, black hoodie."
+            style="margin-bottom: 14px"
+          />
+          <button class="btn" id="run-btn" onclick="runLive()">
+            Fetch album and analyze photos
+          </button>
+        </div>
+      </div>
+
+      <div id="panel-demo">
+        <div class="card">
+          <div class="demo-pill">✦ No API key needed</div>
+          <p
+            style="
+              font-size: 14px;
+              color: #888;
+              margin-bottom: 14px;
+              line-height: 1.6;
+            "
+          >
+            Runs the full AI analysis pipeline on 4 simulated event photos so
+            you can see exactly what gets detected and what labels would be
+            written back to swsh.
+          </p>
+          <label for="demo-ctx"
+            >Brand context
+            <span style="color: #333; font-weight: 400">(optional)</span></label
+          >
+          <input
+            type="text"
+            id="demo-ctx"
+            placeholder="e.g. Sponsors: Nike, Red Bull. Merch: tour tee."
+            style="margin-bottom: 14px"
+          />
+          <button class="btn" id="demo-btn" onclick="runDemo()">
+            Run demo analysis
+          </button>
+        </div>
+      </div>
+
+      <div id="status-area"></div>
+      <div id="results-area"></div>
+
+      <div class="footer">
+        <div class="footer-l">
+          Built on the
+          <a href="https://dev-docs.joinswsh.com" target="_blank"
+            >swsh Public API</a
+          >
+        </div>
+        <div class="footer-r">
+          Ayesha Dawodi ·
+          <a href="https://ayeshadawodi.me" target="_blank">ayeshadawodi.me</a>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      var SWSH_BASE = "https://public-api.joinswsh.com";
+      var CLAUDE_BASE = "https://api.anthropic.com/v1/messages";
+      var logLines = [];
+
+      function switchTab(t) {
+        document.getElementById("panel-live").style.display =
+          t === "live" ? "" : "none";
+        document.getElementById("panel-demo").style.display =
+          t === "demo" ? "" : "none";
+        document.getElementById("tab-live").className =
+          "tab" + (t === "live" ? " active" : "");
+        document.getElementById("tab-demo").className =
+          "tab" + (t === "demo" ? " active" : "");
+        clearResults();
+      }
+
+      function clearResults() {
+        document.getElementById("results-area").innerHTML = "";
+        document.getElementById("status-area").innerHTML = "";
+        document.getElementById("alert-box").innerHTML = "";
+        logLines = [];
+      }
+
+      function setStatus(msg, spinning) {
+        if (spinning === undefined) spinning = true;
+        document.getElementById("status-area").innerHTML =
+          '<div class="status-bar">' +
+          (spinning
+            ? '<div class="spinner"></div>'
+            : '<span class="check-icon">&#10003;</span>') +
+          "<span>" +
+          msg +
+          "</span></div>";
+      }
+
+      function showAlert(msg) {
+        document.getElementById("alert-box").innerHTML =
+          '<div class="alert alert-danger">' + msg + "</div>";
+      }
+
+      function addLog(msg, type) {
+        if (!type) type = "info";
+        logLines.push({ msg: msg, type: type });
+        var box = document.getElementById("log-box");
+        if (box) {
+          box.innerHTML = logLines
+            .map(function (l) {
+              return (
+                '<span class="log-line log-' + l.type + '">' + l.msg + "</span>"
+              );
+            })
+            .join("");
+          box.scrollTop = box.scrollHeight;
+        }
+      }
+
+      function delay(ms) {
+        return new Promise(function (r) {
+          setTimeout(r, ms);
+        });
+      }
+
+      function buildLabels(a) {
+        var labels = [];
+        if (a.crowd_energy) labels.push("energy:" + a.crowd_energy);
+        if (a.viral_potential) labels.push("viral:" + a.viral_potential);
+        if (a.sponsor_logos) {
+          a.sponsor_logos.forEach(function (s) {
+            labels.push(
+              "sponsor:" + s.toLowerCase().replace(/\s+/g, "-").slice(0, 35),
+            );
+          });
+        }
+        if (a.merch_detected) {
+          a.merch_detected.forEach(function (m) {
+            labels.push(
+              "merch:" + m.toLowerCase().replace(/\s+/g, "-").slice(0, 35),
+            );
+          });
+        }
+        if (a.scene_tags) {
+          a.scene_tags.forEach(function (t) {
+            labels.push(t.toLowerCase().replace(/\s+/g, "-").slice(0, 40));
+          });
+        }
+        return labels.slice(0, 6);
+      }
+
+      async function analyzePhotoWithClaude(photoUrl, photoId, brandCtx) {
+        var sys =
+          'You are an AI analyst for a live event fan photo intelligence platform (swsh). Analyze the photo and return ONLY a valid JSON object with: sponsor_logos (array of brand names visible), crowd_energy ("high","medium","low"), merch_detected (array of merch items), viral_potential ("high","medium","low"), scene_tags (array of 1-3 tags). No markdown, no explanation, JSON only.' +
+          (brandCtx ? " Brand context: " + brandCtx : "");
+        var resp = await fetch(CLAUDE_BASE, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            model: "claude-sonnet-4-6",
+            max_tokens: 400,
+            system: sys,
+            messages: [
+              {
+                role: "user",
+                content: [
+                  { type: "image", source: { type: "url", url: photoUrl } },
+                  {
+                    type: "text",
+                    text:
+                      "Analyze this event photo (ID: " +
+                      photoId +
+                      "). Return JSON only.",
+                  },
+                ],
+              },
+            ],
+          }),
+        });
+        if (!resp.ok) throw new Error("Claude API error " + resp.status);
+        var data = await resp.json();
+        var text = "";
+        data.content.forEach(function (b) {
+          if (b.type === "text") text += b.text;
+        });
+        try {
+          return JSON.parse(text.replace(/```json|```/g, "").trim());
+        } catch (e) {
+          return null;
+        }
+      }
+
+      async function writeLabelsToSwsh(apiKey, albumId, photoId, labels) {
+        for (var i = 0; i < labels.length; i++) {
+          await fetch(SWSH_BASE + "/photo/addPhotoLabel", {
+            method: "POST",
+            headers: {
+              "x-api-key": apiKey,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              albumId: albumId,
+              photoId: photoId,
+              label: labels[i],
+              isHidden: false,
+            }),
+          });
+        }
+      }
+
+      async function runLive() {
+        var apiKey = document.getElementById("api-key").value.trim();
+        var albumId = document.getElementById("album-id").value.trim();
+        var brandCtx = document.getElementById("prompt-ctx").value.trim();
+        document.getElementById("alert-box").innerHTML = "";
+        if (!apiKey || !albumId) {
+          showAlert("Enter your swsh API key and album ID to continue.");
+          return;
+        }
+        var btn = document.getElementById("run-btn");
+        btn.disabled = true;
+        logLines = [];
+        try {
+          setStatus("Pinging swsh API…");
+          addLog("> GET /ping", "info");
+          var ping = await fetch(SWSH_BASE + "/ping", {
+            headers: { "x-api-key": apiKey },
+          });
+          if (!ping.ok)
+            throw new Error(
+              "swsh API error " + ping.status + ". Check your API key.",
+            );
+          addLog("✓ swsh API online", "ok");
+          setStatus("Fetching album photos…");
+          addLog(
+            "> GET /album/getPhotos?albumId=" + albumId.slice(0, 8) + "…",
+            "info",
+          );
+          var pr = await fetch(
+            SWSH_BASE + "/album/getPhotos?albumId=" + albumId,
+            { headers: { "x-api-key": apiKey } },
+          );
+          if (!pr.ok) throw new Error("Album not found. Check your album ID.");
+          var pd = await pr.json();
+          var photos = pd.data || [];
+          if (!photos.length) throw new Error("Album has no photos yet.");
+          addLog(
+            "✓ Fetched " +
+              photos.length +
+              " photo" +
+              (photos.length > 1 ? "s" : ""),
+            "ok",
+          );
+          renderGrid(photos, false);
+          await processPhotos(photos, albumId, brandCtx, apiKey, true);
+        } catch (e) {
+          showAlert(e.message);
+          setStatus("", false);
+        } finally {
+          btn.disabled = false;
+        }
+      }
+
+      var DEMO_PHOTOS = [
+        {
+          photoId: "demo-photo-001",
+          labels: [],
+          _scene:
+            "Main stage massive crowd, Red Bull banner visible background, fans wearing tour tees, huge energy",
+        },
+        {
+          photoId: "demo-photo-002",
+          labels: ["fan-selfie"],
+          _scene:
+            "Two fans selfie at concert, Nike logo on jersey, stage lights, big smiles, viral moment",
+        },
+        {
+          photoId: "demo-photo-003",
+          labels: [],
+          _scene:
+            "Aerial crowd shot peak of show, thousands fans, multiple sponsor banners, black hoodies merch everywhere",
+        },
+        {
+          photoId: "demo-photo-004",
+          labels: ["backstage"],
+          _scene:
+            "Quiet backstage moment artist with crew, no sponsor logos, intimate candid shot low energy",
+        },
+      ];
+
+      async function analyzeDemo(photo, brandCtx) {
+        await delay(900 + Math.random() * 500);
+        var scene = photo._scene || "";
+        var sponsors = [];
+        if (scene.indexOf("Red Bull") !== -1) sponsors.push("Red Bull");
+        if (scene.indexOf("Nike") !== -1) sponsors.push("Nike");
+        var merch = [];
+        if (scene.indexOf("tour tee") !== -1) merch.push("tour-tee");
+        if (scene.indexOf("hoodie") !== -1) merch.push("hoodie");
+        var energy =
+          scene.indexOf("massive") !== -1 || scene.indexOf("thousands") !== -1
+            ? "high"
+            : scene.indexOf("backstage") !== -1
+              ? "low"
+              : "medium";
+        var viral =
+          scene.indexOf("aerial") !== -1 || scene.indexOf("viral") !== -1
+            ? "high"
+            : scene.indexOf("backstage") !== -1
+              ? "low"
+              : "medium";
+        var tags =
+          scene.indexOf("aerial") !== -1
+            ? ["aerial", "crowd"]
+            : scene.indexOf("selfie") !== -1
+              ? ["fan-selfie"]
+              : scene.indexOf("backstage") !== -1
+                ? ["backstage"]
+                : ["crowd", "stage"];
+        return {
+          sponsor_logos: sponsors,
+          crowd_energy: energy,
+          merch_detected: merch,
+          viral_potential: viral,
+          scene_tags: tags,
+        };
+      }
+
+      async function runDemo() {
+        var brandCtx =
+          document.getElementById("demo-ctx").value.trim() ||
+          "Sponsors: Red Bull, Nike. Merch: tour tee, black hoodie.";
+        var btn = document.getElementById("demo-btn");
+        btn.disabled = true;
+        logLines = [];
+        document.getElementById("alert-box").innerHTML = "";
+        try {
+          setStatus("Loading demo album…");
+          addLog("> [DEMO] Simulating GET /album/getPhotos", "info");
+          await delay(500);
+          addLog("✓ [DEMO] 4 photos loaded from demo album", "ok");
+          renderGrid(DEMO_PHOTOS, true);
+          await processPhotos(
+            DEMO_PHOTOS,
+            "demo-album-id",
+            brandCtx,
+            null,
+            false,
+          );
+        } catch (e) {
+          showAlert(e.message);
+        } finally {
+          btn.disabled = false;
+        }
+      }
+
+      async function processPhotos(photos, albumId, brandCtx, apiKey, isLive) {
+        var totalLabels = 0,
+          sponsorHits = 0;
+        for (var i = 0; i < photos.length; i++) {
+          var photo = photos[i];
+          var pid = photo.photoId;
+          updateBadge(pid, "analyzing");
+          setStatus(
+            "Analyzing photo " + (i + 1) + " of " + photos.length + "…",
+          );
+          addLog(
+            "> Sending " + pid.slice(0, 14) + "… to Claude vision",
+            "info",
+          );
+          var analysis;
+          try {
+            analysis = isLive
+              ? await analyzePhotoWithClaude(
+                  photo.stableUrl || photo.originalUrl,
+                  pid,
+                  brandCtx,
+                )
+              : await analyzeDemo(photo, brandCtx);
+          } catch (e) {
+            addLog("✗ Analysis failed: " + e.message, "warn");
+            updateBadge(pid, "");
+            continue;
+          }
+          if (!analysis) {
+            updateBadge(pid, "");
+            continue;
+          }
+          addLog(
+            "✓ energy=" +
+              analysis.crowd_energy +
+              " viral=" +
+              analysis.viral_potential +
+              " sponsors=" +
+              (analysis.sponsor_logos ? analysis.sponsor_logos.length : 0),
+            "ok",
+          );
+          var labels = buildLabels(analysis);
+          totalLabels += labels.length;
+          if (analysis.sponsor_logos && analysis.sponsor_logos.length)
+            sponsorHits++;
+          if (isLive && apiKey) {
+            addLog(
+              "> Writing " + labels.length + " labels via addPhotoLabel…",
+              "info",
+            );
+            await writeLabelsToSwsh(apiKey, albumId, pid, labels);
+            addLog("✓ Labels written to swsh", "ok");
+          } else {
+            addLog("> [DEMO] Would write: " + labels.join(", "), "muted");
+          }
+          updateTags(pid, labels, photo.labels || []);
+          updateBadge(pid, "done");
+          updateStats(i + 1, totalLabels, sponsorHits, photos.length);
+        }
+        setStatus(
+          "Done — " +
+            photos.length +
+            " photos analyzed, " +
+            totalLabels +
+            " labels " +
+            (isLive ? "written to swsh" : "generated"),
+          false,
+        );
+        addLog("--- Complete ---", "muted");
+      }
+
+      function renderGrid(photos, isDemo) {
+        var cards = photos
+          .map(function (p) {
+            return photoCard(p, isDemo);
+          })
+          .join("");
+        document.getElementById("results-area").innerHTML =
+          '<div class="stats-row">' +
+          '<div class="stat-card"><span class="stat-num" id="s-analyzed">0/' +
+          photos.length +
+          '</span><span class="stat-label">analyzed</span></div>' +
+          '<div class="stat-card"><span class="stat-num" id="s-labels">0</span><span class="stat-label">labels written</span></div>' +
+          '<div class="stat-card"><span class="stat-num" id="s-sponsors">0</span><span class="stat-label">sponsor hits</span></div>' +
+          "</div>" +
+          '<div class="section-label">' +
+          photos.length +
+          " photos" +
+          (isDemo ? " · demo album" : "") +
+          "</div>" +
+          '<div class="photo-grid">' +
+          cards +
+          "</div>" +
+          '<div class="section-label">API log</div>' +
+          '<div class="log-wrap"><div id="log-box"></div></div>';
+      }
+
+      function photoCard(p, isDemo) {
+        var pid = p.photoId;
+        var img = p.stableUrl
+          ? '<img class="photo-img" src="' +
+            p.stableUrl +
+            '" alt="Event photo" loading="lazy" onerror="this.style.display=\'none\'">'
+          : "";
+        var phStyle = p.stableUrl ? ' style="display:none"' : "";
+        var existing = (p.labels || [])
+          .map(function (l) {
+            return '<span class="tag tag-existing">' + l + "</span>";
+          })
+          .join("");
+        return (
+          '<div class="photo-card" id="card-' +
+          pid +
+          '">' +
+          img +
+          '<div class="photo-placeholder" id="ph-' +
+          pid +
+          '"' +
+          phStyle +
+          ">" +
+          '<div style="font-size:28px;color:#1a1a1a">&#128247;</div>' +
+          '<div class="ph-label">' +
+          (isDemo ? "demo photo" : pid.slice(0, 10) + "…") +
+          "</div>" +
+          "</div>" +
+          '<div class="photo-info">' +
+          '<div class="photo-id">' +
+          pid +
+          "</div>" +
+          '<div class="tags" id="tags-' +
+          pid +
+          '">' +
+          existing +
+          "</div>" +
+          "</div>" +
+          '<div class="badge" id="badge-' +
+          pid +
+          '" style="display:none"></div>' +
+          "</div>"
+        );
+      }
+
+      function updateBadge(pid, state) {
+        var b = document.getElementById("badge-" + pid);
+        if (!b) return;
+        if (state === "analyzing") {
+          b.className = "badge badge-analyzing";
+          b.textContent = "analyzing…";
+          b.style.display = "";
+        } else if (state === "done") {
+          b.className = "badge badge-done";
+          b.textContent = "✓ done";
+          b.style.display = "";
+          setTimeout(function () {
+            b.style.display = "none";
+          }, 2500);
+        } else {
+          b.style.display = "none";
+        }
+      }
+
+      function updateTags(pid, newLabels, existing) {
+        var el = document.getElementById("tags-" + pid);
+        if (!el) return;
+        var existHtml = existing
+          .map(function (l) {
+            return '<span class="tag tag-existing">' + l + "</span>";
+          })
+          .join("");
+        var newHtml = newLabels
+          .map(function (l) {
+            var cls =
+              l.indexOf("sponsor:") === 0
+                ? "tag-sponsor"
+                : l.indexOf("energy:") === 0 || l.indexOf("viral:") === 0
+                  ? "tag-energy"
+                  : "tag-merch";
+            return '<span class="tag ' + cls + '">' + l + "</span>";
+          })
+          .join("");
+        el.innerHTML = existHtml + newHtml;
+      }
+
+      function updateStats(analyzed, labels, sponsors, total) {
+        var sa = document.getElementById("s-analyzed");
+        var sl = document.getElementById("s-labels");
+        var ss = document.getElementById("s-sponsors");
+        if (sa) sa.textContent = analyzed + "/" + total;
+        if (sl) sl.textContent = labels;
+        if (ss) ss.textContent = sponsors;
+      }
+    </script>
+  </body>
+</html>
